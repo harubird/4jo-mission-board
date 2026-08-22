@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4조 미션보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F5F8;
+    --surface:#FFFFFF;
+    --surface-2:#FBFAFC;
+    --text:#1F1B24;
+    --text-muted:#6B6574;
+    --border:#E4E1E8;
+    --border-soft:#EEECF1;
+    --accent:#FF5A36;
+    --accent-ink:#FFFFFF;
+    --accent-soft:#FFEAE3;
+    --success:#1F9D6B;
+    --success-bg:#E4F7EE;
+    --success-border:#BEEBD4;
+    --danger:#E23D3D;
+    --danger-bg:#FDEAEA;
+    --danger-border:#F7C6C6;
+    --neutral-bg:#F0EEF3;
+    --neutral-border:#DEDAE4;
+    --shadow: 0 1px 2px rgba(31,27,36,0.04), 0 8px 24px -12px rgba(31,27,36,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#141219;
+      --surface:#1D1A23;
+      --surface-2:#221F29;
+      --text:#F1EEF5;
+      --text-muted:#A79FB0;
+      --border:#34303D;
+      --border-soft:#2A2732;
+      --accent:#FF7A54;
+      --accent-ink:#1A1014;
+      --accent-soft:#3A2620;
+      --success:#3FCB8D;
+      --success-bg:rgba(63,203,141,0.14);
+      --success-border:rgba(63,203,141,0.35);
+      --danger:#FF6B6B;
+      --danger-bg:rgba(255,107,107,0.14);
+      --danger-border:rgba(255,107,107,0.38);
+      --neutral-bg:#2A2732;
+      --neutral-border:#3A3644;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141219;
+    --surface:#1D1A23;
+    --surface-2:#221F29;
+    --text:#F1EEF5;
+    --text-muted:#A79FB0;
+    --border:#34303D;
+    --border-soft:#2A2732;
+    --accent:#FF7A54;
+    --accent-ink:#1A1014;
+    --accent-soft:#3A2620;
+    --success:#3FCB8D;
+    --success-bg:rgba(63,203,141,0.14);
+    --success-border:rgba(63,203,141,0.35);
+    --danger:#FF6B6B;
+    --danger-bg:rgba(255,107,107,0.14);
+    --danger-border:rgba(255,107,107,0.38);
+    --neutral-bg:#2A2732;
+    --neutral-border:#3A3644;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Sora","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:920px;
+    margin:0 auto;
+    padding:28px 20px 64px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .app{ animation: rise .5s ease both; }
+    @keyframes rise{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  }
+
+  .hero-top{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:20px 20px 0 0;
+    padding:26px 28px 16px;
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    align-self:flex-start;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    background:var(--accent-soft);
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  h1{
+    font-family:"Fraunces",Georgia,serif;
+    font-weight:700;
+    font-size:clamp(26px,4vw,34px);
+    margin:0;
+    text-wrap:balance;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    margin:0;
+    color:var(--text-muted);
+    font-size:14.5px;
+  }
+  .sub b{ color:var(--text); font-weight:600; }
+
+  .tabs{
+    display:inline-flex;
+    gap:4px;
+    padding:4px;
+    background:var(--neutral-bg);
+    border-radius:12px;
+    align-self:flex-start;
+    margin-top:4px;
+  }
+  .tab-btn{
+    appearance:none;
+    -webkit-appearance:none;
+    border:none;
+    background:transparent;
+    font:inherit;
+    font-weight:700;
+    font-size:13.5px;
+    color:var(--text-muted);
+    padding:8px 18px;
+    border-radius:9px;
+    cursor:pointer;
+  }
+  .tab-btn:hover{ color:var(--text); }
+  .tab-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .app[data-local-tab="week-1"] .tab-btn[data-tab="week-1"],
+  .app[data-local-tab="week-2"] .tab-btn[data-tab="week-2"],
+  .app[data-local-tab="week-3"] .tab-btn[data-tab="week-3"],
+  .app[data-local-tab="week-4"] .tab-btn[data-tab="week-4"]{
+    background:var(--surface);
+    color:var(--text);
+    box-shadow:var(--shadow);
+  }
+
+  .conn-status{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
+    color:var(--text-muted);
+    align-self:flex-start;
+  }
+  .conn-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--neutral-border);
+  }
+  .conn-status.live .conn-dot{ background:var(--success); }
+  .conn-status.error .conn-dot{ background:var(--danger); }
+  .conn-status.error{ color:var(--danger); }
+
+  .week-panel{
+    display:none;
+    flex-direction:column;
+    gap:16px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-top:none;
+    border-radius:0 0 20px 20px;
+    padding:20px 28px 26px;
+    box-shadow:var(--shadow);
+  }
+  .app[data-local-tab="week-1"] .week-panel[data-week="week-1"],
+  .app[data-local-tab="week-2"] .week-panel[data-week="week-2"],
+  .app[data-local-tab="week-3"] .week-panel[data-week="week-3"],
+  .app[data-local-tab="week-4"] .week-panel[data-week="week-4"]{
+    display:flex;
+  }
+
+  .panel-meta{ font-size:14.5px; color:var(--text-muted); margin:0; }
+  .panel-meta b{ color:var(--text); font-weight:600; }
+
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+  }
+  .stat{
+    background:var(--surface-2);
+    border:1px solid var(--border-soft);
+    border-radius:14px;
+    padding:14px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .stat .label{ font-size:12px; color:var(--text-muted); font-weight:600; letter-spacing:.02em; }
+  .stat .value{
+    font-size:22px;
+    font-weight:700;
+    font-variant-numeric:tabular-nums;
+  }
+  .stat .value.danger{ color:var(--danger); }
+  .bar{
+    height:6px;
+    border-radius:999px;
+    background:var(--neutral-bg);
+    overflow:hidden;
+    margin-top:2px;
+  }
+  .bar > span{
+    display:block;
+    height:100%;
+    background:var(--success);
+    border-radius:999px;
+    transition:width .3s ease;
+    width:0%;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bar > span{ transition:none; }
+  }
+
+  .overdue-note{
+    display:none;
+    align-items:flex-start;
+    gap:8px;
+    background:var(--danger-bg);
+    border:1px solid var(--danger-border);
+    color:var(--danger);
+    font-size:13.5px;
+    font-weight:600;
+    padding:10px 14px;
+    border-radius:12px;
+  }
+  .week-panel.deadline-passed .overdue-note.has-overdue{ display:flex; }
+
+  .board{
+    border:1px solid var(--border-soft);
+    border-radius:14px;
+    padding:4px;
+  }
+  .table-scroll{ overflow-x:auto; }
+  table{
+    border-collapse:collapse;
+    width:100%;
+    min-width:640px;
+  }
+  thead th{
+    font-size:11.5px;
+    color:var(--text-muted);
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    padding:14px 8px 10px;
+    border-bottom:1px solid var(--border);
+    text-align:center;
+    white-space:nowrap;
+  }
+  thead th.th-idx, thead th.th-name{ text-align:left; padding-left:14px; }
+  .col-head{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    white-space:normal;
+    word-break:keep-all;
+  }
+  .col-head .num{
+    width:18px;height:18px;
+    border-radius:50%;
+    background:var(--neutral-bg);
+    color:var(--text-muted);
+    font-size:10.5px;
+    font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    text-transform:none;
+  }
+  .col-head .name{
+    font-size:11px;
+    letter-spacing:0;
+    text-transform:none;
+    color:var(--text-muted);
+    max-width:74px;
+    line-height:1.25;
+  }
+
+  tbody tr{ border-bottom:1px solid var(--border-soft); }
+  tbody tr:last-child{ border-bottom:none; }
+
+  td{ padding:9px 8px; text-align:center; background:var(--surface); transition:background-color .2s ease; }
+  @media (prefers-reduced-motion: reduce){ td{ transition:none; } }
+  tbody tr:not(:has(input[type="checkbox"]:not(:checked))) td{
+    background:var(--success-bg);
+  }
+  .week-panel.deadline-passed tbody tr:has(input[type="checkbox"]:not(:checked)) td{
+    background:var(--danger-bg);
+  }
+
+  td.idx{
+    text-align:left;
+    padding-left:14px;
+    font-weight:700;
+    font-variant-numeric:tabular-nums;
+    color:var(--text-muted);
+    font-size:14px;
+  }
+  td.name-cell{ text-align:left; padding-left:6px; }
+  .name-input{
+    width:100%;
+    min-width:96px;
+    max-width:120px;
+    border:1px solid transparent;
+    background:transparent;
+    color:var(--text);
+    font:inherit;
+    font-size:13.5px;
+    padding:7px 8px;
+    border-radius:8px;
+  }
+  .name-input::placeholder{ color:var(--text-muted); opacity:.75; }
+  .name-input:hover{ background:var(--surface-2); }
+  .name-input:focus{
+    outline:none;
+    border-color:var(--accent);
+    background:var(--surface-2);
+  }
+
+  input[type="checkbox"]{
+    appearance:none;
+    -webkit-appearance:none;
+    width:22px;height:22px;
+    border-radius:7px;
+    border:1.5px solid var(--border);
+    background:var(--surface);
+    cursor:pointer;
+    display:inline-grid;
+    place-content:center;
+    accent-color:var(--accent);
+    vertical-align:middle;
+  }
+  input[type="checkbox"]:hover{ border-color:var(--accent); }
+  input[type="checkbox"]::before{
+    content:"";
+    width:12px;height:12px;
+    transform:scale(0);
+    transition:transform .12s ease;
+    box-shadow:inset 1em 1em var(--accent-ink);
+    clip-path:polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 45% 62%);
+  }
+  @media (prefers-reduced-motion: reduce){ input[type="checkbox"]::before{ transition:none; } }
+  input[type="checkbox"]:checked{
+    background:var(--accent);
+    border-color:var(--accent);
+  }
+  input[type="checkbox"]:checked::before{ transform:scale(1); }
+  input[type="checkbox"]:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+
+  .status-cell{ white-space:nowrap; padding-right:14px; }
+  .pill{
+    display:none;
+    align-items:center;
+    gap:4px;
+    font-size:12px;
+    font-weight:700;
+    padding:5px 10px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  tbody tr:not(:has(input[type="checkbox"]:not(:checked))) .pill-done{
+    display:inline-flex;
+    background:var(--success-bg);
+    color:var(--success);
+    border:1px solid var(--success-border);
+  }
+  .week-panel:not(.deadline-passed) tbody tr:has(input[type="checkbox"]:not(:checked)) .pill-progress{
+    display:inline-flex;
+    background:var(--neutral-bg);
+    color:var(--text-muted);
+    border:1px solid var(--neutral-border);
+  }
+  .week-panel.deadline-passed tbody tr:has(input[type="checkbox"]:not(:checked)) .pill-overdue{
+    display:inline-flex;
+    background:var(--danger-bg);
+    color:var(--danger);
+    border:1px solid var(--danger-border);
+  }
+
+  .placeholder-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    text-align:center;
+    padding:44px 20px;
+    border:1.5px dashed var(--border);
+    border-radius:14px;
+    color:var(--text-muted);
+    font-size:14px;
+  }
+  .placeholder-card .icon{ font-size:26px; }
+  .placeholder-card p{ margin:0; line-height:1.6; }
+
+  footer{
+    text-align:center;
+    font-size:12.5px;
+    color:var(--text-muted);
+    padding:4px 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="app" id="app" data-local-tab="week-1">
+    <header class="hero-top">
+      <span class="eyebrow">4조 · 위클리 미션보드</span>
+      <h1>4조 위클리 미션보드</h1>
+      <p class="sub">31~40번 총 <b>10명</b>이 매주 미션을 체크해요 · 로그인 없이 링크로 바로 체크돼요</p>
+      <nav class="tabs">
+        <button type="button" class="tab-btn" data-tab="week-1">1주차</button>
+        <button type="button" class="tab-btn" data-tab="week-2">2주차</button>
+        <button type="button" class="tab-btn" data-tab="week-3">3주차</button>
+        <button type="button" class="tab-btn" data-tab="week-4">4주차</button>
+      </nav>
+      <span class="conn-status" id="connStatus"><span class="conn-dot"></span><span id="connText">연결 중…</span></span>
+    </header>
+
+    <section class="week-panel" data-week="week-1" data-deadline="2026-08-27T00:00:00+09:00">
+      <p class="panel-meta">미션 <b>6개</b> · 마감 <b>2026.08.26(수) 24:00</b></p>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="label">완료 인원</span>
+          <span class="value" data-role="done-count">0 / 10</span>
+          <div class="bar"><span data-role="done-bar"></span></div>
+        </div>
+        <div class="stat">
+          <span class="label">전체 체크</span>
+          <span class="value" data-role="check-count">0 / 60</span>
+        </div>
+        <div class="stat">
+          <span class="label">마감까지</span>
+          <span class="value" data-role="countdown">계산 중…</span>
+        </div>
+      </div>
+
+      <div class="overdue-note" data-role="overdue-note">
+        <span>⏰</span>
+        <span>마감을 넘겼는데 아직 다 못한 사람: <b data-role="overdue-list"></b></span>
+      </div>
+
+      <div class="board">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th class="th-idx">번호</th>
+                <th class="th-name">이름</th>
+                <th><div class="col-head"><span class="num">1</span><span class="name">한줄컨셉</span></div></th>
+                <th><div class="col-head"><span class="num">2</span><span class="name">외국레퍼찾기</span></div></th>
+                <th><div class="col-head"><span class="num">3</span><span class="name">코어해부</span></div></th>
+                <th><div class="col-head"><span class="num">4</span><span class="name">인스타컨텐츠</span></div></th>
+                <th><div class="col-head"><span class="num">5</span><span class="name">DM문구</span></div></th>
+                <th><div class="col-head"><span class="num">6</span><span class="name">1주차후기</span></div></th>
+                <th>상태</th>
+              </tr>
+            </thead>
+            <tbody id="week1Rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="week-panel" data-week="week-2" data-deadline="2026-09-03T00:00:00+09:00">
+      <p class="panel-meta">마감 예정 <b>2026.09.02(수) 24:00</b></p>
+      <div class="placeholder-card">
+        <span class="icon">🛠️</span>
+        <p>2주차 미션이 아직 등록되지 않았어요.<br>미션이 정해지면 이 탭에 체크리스트가 열려요.</p>
+      </div>
+    </section>
+
+    <section class="week-panel" data-week="week-3" data-deadline="2026-09-10T00:00:00+09:00">
+      <p class="panel-meta">마감 예정 <b>2026.09.09(수) 24:00</b></p>
+      <div class="placeholder-card">
+        <span class="icon">🛠️</span>
+        <p>3주차 미션이 아직 등록되지 않았어요.<br>미션이 정해지면 이 탭에 체크리스트가 열려요.</p>
+      </div>
+    </section>
+
+    <section class="week-panel" data-week="week-4" data-deadline="2026-09-17T00:00:00+09:00">
+      <p class="panel-meta">마감 예정 <b>2026.09.16(수) 24:00</b></p>
+      <div class="placeholder-card">
+        <span class="icon">🛠️</span>
+        <p>4주차 미션이 아직 등록되지 않았어요.<br>미션이 정해지면 이 탭에 체크리스트가 열려요.</p>
+      </div>
+    </section>
+  </div>
+
+  <footer>체크박스를 누르면 바로 다같이 실시간으로 공유돼요 (로그인 필요 없음) · 이름을 적어두면 서로 알아보기 편해요</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+  var SUPABASE_URL = 'https://srgdifsuqujkiymdntlo.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_owmlrq4QYWjgC5O2x7tgmA_YJAeyvny';
+  var MEMBERS = [31,32,33,34,35,36,37,38,39,40];
+  var MISSIONS = ['한줄컨셉','외국레퍼찾기','코어해부','인스타컨텐츠','DM문구','1주차후기'];
+  var WEEK = 'week-1';
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function buildRows(){
+    var tbody = document.getElementById('week1Rows');
+    var html = '';
+    MEMBERS.forEach(function(id){
+      html += '<tr data-member="' + id + '">' +
+        '<td class="idx">' + id + '</td>' +
+        '<td class="name-cell"><input type="text" class="name-input" data-member="' + id + '" placeholder="이름/닉네임" aria-label="' + id + '번 이름"></td>';
+      MISSIONS.forEach(function(m, i){
+        html += '<td><input type="checkbox" data-member="' + id + '" data-mission="' + (i + 1) + '" aria-label="' + id + '번 ' + m + '"></td>';
+      });
+      html += '<td class="status-cell"><span class="pill pill-done">✓ 완료</span><span class="pill pill-progress">진행중</span><span class="pill pill-overdue">미완료</span></td>' +
+        '</tr>';
+    });
+    tbody.innerHTML = html;
+  }
+
+  function updatePanelCountdown(panel){
+    var deadline = new Date(panel.getAttribute('data-deadline'));
+    var now = new Date();
+    var diff = deadline.getTime() - now.getTime();
+    var passed = diff <= 0;
+    panel.classList.toggle('deadline-passed', passed);
+    var el = panel.querySelector('[data-role="countdown"]');
+    if(!el) return;
+    if(passed){
+      el.textContent = '마감 지남';
+      el.classList.add('danger');
+    } else {
+      var totalSec = Math.floor(diff / 1000);
+      var d = Math.floor(totalSec / 86400);
+      var h = Math.floor((totalSec % 86400) / 3600);
+      var m = Math.floor((totalSec % 3600) / 60);
+      var s = totalSec % 60;
+      var clock = pad(h) + ':' + pad(m) + ':' + pad(s);
+      el.textContent = d > 0 ? (d + '일 ' + clock) : clock;
+      el.classList.remove('danger');
+    }
+  }
+
+  function computePanelStats(panel){
+    var rows = panel.querySelectorAll('tbody tr');
+    if(!rows.length) return;
+    var doneMembers = 0, totalChecks = 0, totalPossible = 0;
+    var overdue = [];
+    rows.forEach(function(row){
+      var boxes = row.querySelectorAll('input[type="checkbox"]');
+      var checked = Array.prototype.filter.call(boxes, function(b){ return b.checked; }).length;
+      totalChecks += checked;
+      totalPossible += boxes.length;
+      if(checked === boxes.length){
+        doneMembers++;
+      } else {
+        overdue.push(row.getAttribute('data-member'));
+      }
+    });
+    var doneEl = panel.querySelector('[data-role="done-count"]');
+    var checkEl = panel.querySelector('[data-role="check-count"]');
+    var barEl = panel.querySelector('[data-role="done-bar"]');
+    var totalRows = rows.length;
+    if(doneEl) doneEl.textContent = doneMembers + ' / ' + totalRows;
+    if(checkEl) checkEl.textContent = totalChecks + ' / ' + totalPossible;
+    if(barEl) barEl.style.width = (totalRows ? (doneMembers / totalRows * 100) : 0) + '%';
+
+    var note = panel.querySelector('[data-role="overdue-note"]');
+    var list = panel.querySelector('[data-role="overdue-list"]');
+    if(note && list){
+      if(overdue.length){
+        list.textContent = overdue.map(function(n){ return n + '번'; }).join(', ');
+        note.classList.add('has-overdue');
+      } else {
+        note.classList.remove('has-overdue');
+      }
+    }
+  }
+
+  function tickCountdowns(){
+    document.querySelectorAll('.week-panel[data-deadline]').forEach(updatePanelCountdown);
+  }
+
+  function refreshStats(){
+    document.querySelectorAll('.week-panel[data-deadline]').forEach(computePanelStats);
+  }
+
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.getElementById('app').setAttribute('data-local-tab', btn.getAttribute('data-tab'));
+    });
+  });
+
+  buildRows();
+  tickCountdowns();
+  refreshStats();
+  setInterval(tickCountdowns, 1000);
+
+  // ---- Supabase realtime backend (no login needed; anon public key by design) ----
+  function setConn(state, text){
+    var el = document.getElementById('connStatus');
+    var t = document.getElementById('connText');
+    el.className = 'conn-status' + (state ? ' ' + state : '');
+    t.textContent = text;
+  }
+
+  if(!window.supabase){
+    setConn('error', '실시간 연결 실패 (스크립트 로드 안 됨)');
+    return;
+  }
+
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  function applyCheckRow(row){
+    var cb = document.querySelector('input[type="checkbox"][data-member="' + row.member + '"][data-mission="' + row.mission + '"]');
+    if(cb && cb.checked !== row.checked){ cb.checked = row.checked; }
+  }
+  function applyNameRow(row){
+    var inp = document.querySelector('input.name-input[data-member="' + row.member + '"]');
+    if(inp && document.activeElement !== inp){ inp.value = row.name || ''; }
+  }
+
+  async function loadInitial(){
+    var checksRes = await sb.from('checks').select('*').eq('week', WEEK);
+    var namesRes = await sb.from('names').select('*').eq('week', WEEK);
+    if(checksRes.error || namesRes.error){
+      setConn('error', '데이터를 불러오지 못했어요');
+      return;
+    }
+    (checksRes.data || []).forEach(applyCheckRow);
+    (namesRes.data || []).forEach(applyNameRow);
+    refreshStats();
+    setConn('live', '실시간 연결됨');
+  }
+
+  sb.channel('mission-board-' + WEEK)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'checks', filter: 'week=eq.' + WEEK }, function(payload){
+      if(payload.new) applyCheckRow(payload.new);
+      refreshStats();
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'names', filter: 'week=eq.' + WEEK }, function(payload){
+      if(payload.new) applyNameRow(payload.new);
+    })
+    .subscribe(function(status){
+      if(status === 'CHANNEL_ERROR' || status === 'TIMED_OUT'){
+        setConn('error', '실시간 연결 끊김 (새로고침 해주세요)');
+      }
+    });
+
+  document.getElementById('app').addEventListener('change', function(e){
+    if(e.target.matches('input[type="checkbox"]')){
+      computePanelStats(e.target.closest('.week-panel'));
+      var member = Number(e.target.getAttribute('data-member'));
+      var mission = Number(e.target.getAttribute('data-mission'));
+      sb.from('checks').upsert({ week: WEEK, member: member, mission: mission, checked: e.target.checked, updated_at: new Date().toISOString() }, { onConflict: 'week,member,mission' })
+        .then(function(res){ if(res.error){ setConn('error', '저장 실패: ' + res.error.message); } });
+    } else if(e.target.matches('input.name-input')){
+      var m = Number(e.target.getAttribute('data-member'));
+      var name = e.target.value;
+      sb.from('names').upsert({ week: WEEK, member: m, name: name, updated_at: new Date().toISOString() }, { onConflict: 'week,member' })
+        .then(function(res){ if(res.error){ setConn('error', '저장 실패: ' + res.error.message); } });
+    }
+  });
+
+  loadInitial();
+})();
+</script>
+</body>
+</html>
