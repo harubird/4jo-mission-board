@@ -164,11 +164,87 @@
   .app[data-local-tab="week-1"] .tab-btn[data-tab="week-1"],
   .app[data-local-tab="week-2"] .tab-btn[data-tab="week-2"],
   .app[data-local-tab="week-3"] .tab-btn[data-tab="week-3"],
-  .app[data-local-tab="week-4"] .tab-btn[data-tab="week-4"]{
+  .app[data-local-tab="week-4"] .tab-btn[data-tab="week-4"],
+  .app[data-local-tab="daily"] .tab-btn[data-tab="daily"]{
     background:var(--surface);
-    color:var(--text);
     box-shadow:var(--shadow);
   }
+
+  /* per-tab accent colors */
+  .tab-btn[data-tab="week-1"]{ --tab-color:#FF5A36; }
+  .tab-btn[data-tab="week-2"]{ --tab-color:#7C5CFC; }
+  .tab-btn[data-tab="week-3"]{ --tab-color:#0EA5A0; }
+  .tab-btn[data-tab="week-4"]{ --tab-color:#D98A0F; }
+  .tab-btn[data-tab="daily"]{ --tab-color:#E14F86; }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .tab-btn[data-tab="week-1"]{ --tab-color:#FF7A54; }
+    :root:not([data-theme="light"]) .tab-btn[data-tab="week-2"]{ --tab-color:#A18CFF; }
+    :root:not([data-theme="light"]) .tab-btn[data-tab="week-3"]{ --tab-color:#2DD4C8; }
+    :root:not([data-theme="light"]) .tab-btn[data-tab="week-4"]{ --tab-color:#F5C451; }
+    :root:not([data-theme="light"]) .tab-btn[data-tab="daily"]{ --tab-color:#FF7FB0; }
+  }
+  :root[data-theme="dark"] .tab-btn[data-tab="week-1"]{ --tab-color:#FF7A54; }
+  :root[data-theme="dark"] .tab-btn[data-tab="week-2"]{ --tab-color:#A18CFF; }
+  :root[data-theme="dark"] .tab-btn[data-tab="week-3"]{ --tab-color:#2DD4C8; }
+  :root[data-theme="dark"] .tab-btn[data-tab="week-4"]{ --tab-color:#F5C451; }
+  :root[data-theme="dark"] .tab-btn[data-tab="daily"]{ --tab-color:#FF7FB0; }
+  .app[data-local-tab="week-1"] .tab-btn[data-tab="week-1"],
+  .app[data-local-tab="week-2"] .tab-btn[data-tab="week-2"],
+  .app[data-local-tab="week-3"] .tab-btn[data-tab="week-3"],
+  .app[data-local-tab="week-4"] .tab-btn[data-tab="week-4"],
+  .app[data-local-tab="daily"] .tab-btn[data-tab="daily"]{
+    color:var(--tab-color);
+  }
+
+  /* per-panel accent (checkboxes, tag chip, progress bar all follow the tab color) */
+  .week-panel[data-week="week-1"]{ --accent:#FF5A36; --accent-soft:#FFEAE3; --accent-ink:#FFFFFF; }
+  .week-panel[data-week="week-2"]{ --accent:#7C5CFC; --accent-soft:#EFEAFF; --accent-ink:#FFFFFF; }
+  .week-panel[data-week="week-3"]{ --accent:#0EA5A0; --accent-soft:#E1F7F5; --accent-ink:#FFFFFF; }
+  .week-panel[data-week="week-4"]{ --accent:#D98A0F; --accent-soft:#FFF3DA; --accent-ink:#3A2400; }
+  .week-panel[data-week="daily"]{ --accent:#E14F86; --accent-soft:#FDE7EF; --accent-ink:#FFFFFF; }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .week-panel[data-week="week-1"]{ --accent:#FF7A54; --accent-soft:#3A2620; --accent-ink:#1A1014; }
+    :root:not([data-theme="light"]) .week-panel[data-week="week-2"]{ --accent:#A18CFF; --accent-soft:#292345; --accent-ink:#17122E; }
+    :root:not([data-theme="light"]) .week-panel[data-week="week-3"]{ --accent:#2DD4C8; --accent-soft:#123430; --accent-ink:#062421; }
+    :root:not([data-theme="light"]) .week-panel[data-week="week-4"]{ --accent:#F5C451; --accent-soft:#3A2E10; --accent-ink:#2A1D00; }
+    :root:not([data-theme="light"]) .week-panel[data-week="daily"]{ --accent:#FF7FB0; --accent-soft:#3A1D28; --accent-ink:#2E0F1A; }
+  }
+  :root[data-theme="dark"] .week-panel[data-week="week-1"]{ --accent:#FF7A54; --accent-soft:#3A2620; --accent-ink:#1A1014; }
+  :root[data-theme="dark"] .week-panel[data-week="week-2"]{ --accent:#A18CFF; --accent-soft:#292345; --accent-ink:#17122E; }
+  :root[data-theme="dark"] .week-panel[data-week="week-3"]{ --accent:#2DD4C8; --accent-soft:#123430; --accent-ink:#062421; }
+  :root[data-theme="dark"] .week-panel[data-week="week-4"]{ --accent:#F5C451; --accent-soft:#3A2E10; --accent-ink:#2A1D00; }
+  :root[data-theme="dark"] .week-panel[data-week="daily"]{ --accent:#FF7FB0; --accent-soft:#3A1D28; --accent-ink:#2E0F1A; }
+
+  .panel-tag{
+    display:inline-flex;
+    align-self:flex-start;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--accent);
+    background:var(--accent-soft);
+    padding:4px 10px;
+    border-radius:999px;
+  }
+
+  .day-nav-btn{
+    appearance:none;
+    -webkit-appearance:none;
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--text);
+    font:inherit;
+    font-size:13px;
+    font-weight:700;
+    padding:6px 12px;
+    border-radius:9px;
+    cursor:pointer;
+  }
+  .day-nav-btn:hover{ border-color:var(--accent); color:var(--accent); }
+  .day-nav-btn:disabled{ opacity:.4; cursor:default; }
+  .day-nav-btn:disabled:hover{ border-color:var(--border); color:var(--text); }
+  .name-display{ font-size:13.5px; color:var(--text-muted); }
 
   .conn-status{
     display:inline-flex;
@@ -200,7 +276,8 @@
   .app[data-local-tab="week-1"] .week-panel[data-week="week-1"],
   .app[data-local-tab="week-2"] .week-panel[data-week="week-2"],
   .app[data-local-tab="week-3"] .week-panel[data-week="week-3"],
-  .app[data-local-tab="week-4"] .week-panel[data-week="week-4"]{
+  .app[data-local-tab="week-4"] .week-panel[data-week="week-4"],
+  .app[data-local-tab="daily"] .week-panel[data-week="daily"]{
     display:flex;
   }
 
@@ -226,6 +303,7 @@
     font-size:22px;
     font-weight:700;
     font-variant-numeric:tabular-nums;
+    color:var(--accent);
   }
   .stat .value.danger{ color:var(--danger); }
   .bar{
@@ -238,7 +316,7 @@
   .bar > span{
     display:block;
     height:100%;
-    background:var(--success);
+    background:var(--accent);
     border-radius:999px;
     transition:width .3s ease;
     width:0%;
@@ -452,11 +530,13 @@
         <button type="button" class="tab-btn" data-tab="week-2">2주차</button>
         <button type="button" class="tab-btn" data-tab="week-3">3주차</button>
         <button type="button" class="tab-btn" data-tab="week-4">4주차</button>
+        <button type="button" class="tab-btn" data-tab="daily">일일미션</button>
       </nav>
       <span class="conn-status" id="connStatus"><span class="conn-dot"></span><span id="connText">연결 중…</span></span>
     </header>
 
     <section class="week-panel" data-week="week-1" data-deadline="2026-08-27T00:00:00+09:00">
+      <span class="panel-tag">1주차</span>
       <p class="panel-meta">미션 <b>6개</b> · 마감 <b>2026.08.26(수) 24:00</b></p>
 
       <div class="stats">
@@ -503,6 +583,7 @@
     </section>
 
     <section class="week-panel" data-week="week-2" data-deadline="2026-09-03T00:00:00+09:00">
+      <span class="panel-tag">2주차</span>
       <p class="panel-meta">마감 예정 <b>2026.09.02(수) 24:00</b></p>
       <div class="placeholder-card">
         <span class="icon">🛠️</span>
@@ -511,6 +592,7 @@
     </section>
 
     <section class="week-panel" data-week="week-3" data-deadline="2026-09-10T00:00:00+09:00">
+      <span class="panel-tag">3주차</span>
       <p class="panel-meta">마감 예정 <b>2026.09.09(수) 24:00</b></p>
       <div class="placeholder-card">
         <span class="icon">🛠️</span>
@@ -519,10 +601,57 @@
     </section>
 
     <section class="week-panel" data-week="week-4" data-deadline="2026-09-17T00:00:00+09:00">
+      <span class="panel-tag">4주차</span>
       <p class="panel-meta">마감 예정 <b>2026.09.16(수) 24:00</b></p>
       <div class="placeholder-card">
         <span class="icon">🛠️</span>
         <p>4주차 미션이 아직 등록되지 않았어요.<br>미션이 정해지면 이 탭에 체크리스트가 열려요.</p>
+      </div>
+    </section>
+
+    <section class="week-panel" data-week="daily">
+      <span class="panel-tag">일일미션</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button type="button" id="dayPrev" class="day-nav-btn" aria-label="전날">‹</button>
+          <span class="panel-meta" id="dayLabel" style="min-width:140px;text-align:center;"></span>
+          <button type="button" id="dayNext" class="day-nav-btn" aria-label="다음날">›</button>
+        </div>
+        <button type="button" id="dayToday" class="day-nav-btn">오늘로</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="label">완료 인원</span>
+          <span class="value" data-role="done-count">0 / 10</span>
+          <div class="bar"><span data-role="done-bar"></span></div>
+        </div>
+        <div class="stat">
+          <span class="label">전체 체크</span>
+          <span class="value" data-role="check-count">0 / 20</span>
+        </div>
+      </div>
+
+      <div class="overdue-note" data-role="overdue-note">
+        <span>⏰</span>
+        <span>그날 다 못한 사람: <b data-role="overdue-list"></b></span>
+      </div>
+
+      <div class="board">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th class="th-idx">번호</th>
+                <th class="th-name">이름</th>
+                <th><div class="col-head"><span class="num">A</span><span class="name">레퍼찾기</span></div></th>
+                <th><div class="col-head"><span class="num">B</span><span class="name">행동교정</span></div></th>
+                <th>상태</th>
+              </tr>
+            </thead>
+            <tbody id="dailyRows"></tbody>
+          </table>
+        </div>
       </div>
     </section>
   </div>
@@ -621,7 +750,7 @@
   }
 
   function refreshStats(){
-    document.querySelectorAll('.week-panel[data-deadline]').forEach(computePanelStats);
+    document.querySelectorAll('.week-panel').forEach(computePanelStats);
   }
 
   document.querySelectorAll('.tab-btn').forEach(function(btn){
@@ -630,7 +759,44 @@
     });
   });
 
+  // ---- daily missions (30 days, A/B checks per member, no weekly deadline) ----
+  var DAILY_START = new Date('2026-08-23T00:00:00+09:00');
+  var DAILY_LENGTH = 30;
+
+  function todayDayIndex(){
+    var diff = Math.floor((new Date() - DAILY_START) / 86400000) + 1;
+    return Math.min(DAILY_LENGTH, Math.max(1, diff));
+  }
+  var currentDay = todayDayIndex();
+
+  function buildDailyRows(){
+    var tbody = document.getElementById('dailyRows');
+    var html = '';
+    MEMBERS.forEach(function(id){
+      html += '<tr data-member="' + id + '">' +
+        '<td class="idx">' + id + '</td>' +
+        '<td class="name-cell"><span class="name-display" data-member="' + id + '">이름/닉네임</span></td>' +
+        '<td><input type="checkbox" data-daily="1" data-member="' + id + '" data-mission="A" aria-label="' + id + '번 레퍼찾기"></td>' +
+        '<td><input type="checkbox" data-daily="1" data-member="' + id + '" data-mission="B" aria-label="' + id + '번 행동교정"></td>' +
+        '<td class="status-cell"><span class="pill pill-done">✓ 완료</span><span class="pill pill-progress">진행중</span><span class="pill pill-overdue">미완료</span></td>' +
+        '</tr>';
+    });
+    tbody.innerHTML = html;
+  }
+
+  function updateDailyHeader(){
+    var panel = document.querySelector('.week-panel[data-week="daily"]');
+    panel.classList.toggle('deadline-passed', currentDay < todayDayIndex());
+    var d = new Date(DAILY_START.getTime() + (currentDay - 1) * 86400000);
+    var weekday = ['일','월','화','수','목','금','토'][d.getDay()];
+    document.getElementById('dayLabel').textContent = currentDay + '일차 · ' + (d.getMonth() + 1) + '/' + d.getDate() + '(' + weekday + ')';
+    document.getElementById('dayPrev').disabled = currentDay <= 1;
+    document.getElementById('dayNext').disabled = currentDay >= DAILY_LENGTH;
+  }
+
   buildRows();
+  buildDailyRows();
+  updateDailyHeader();
   tickCountdowns();
   refreshStats();
   setInterval(tickCountdowns, 1000);
@@ -657,7 +823,42 @@
   function applyNameRow(row){
     var inp = document.querySelector('input.name-input[data-member="' + row.member + '"]');
     if(inp && document.activeElement !== inp){ inp.value = row.name || ''; }
+    var span = document.querySelector('span.name-display[data-member="' + row.member + '"]');
+    if(span){ span.textContent = row.name || '이름/닉네임'; }
   }
+
+  async function loadDaily(day){
+    var panel = document.querySelector('.week-panel[data-week="daily"]');
+    panel.querySelectorAll('input[type="checkbox"]').forEach(function(cb){ cb.checked = false; });
+    var res = await sb.from('daily_checks').select('*').eq('day_index', day);
+    if(res.error){ setConn('error', '데이터를 불러오지 못했어요'); return; }
+    (res.data || []).forEach(function(row){
+      var cb = document.querySelector('input[type="checkbox"][data-daily="1"][data-member="' + row.member + '"][data-mission="' + row.mission + '"]');
+      if(cb) cb.checked = row.checked;
+    });
+    computePanelStats(panel);
+  }
+
+  document.getElementById('dayPrev').addEventListener('click', function(){
+    if(currentDay > 1){ currentDay--; updateDailyHeader(); loadDaily(currentDay); }
+  });
+  document.getElementById('dayNext').addEventListener('click', function(){
+    if(currentDay < DAILY_LENGTH){ currentDay++; updateDailyHeader(); loadDaily(currentDay); }
+  });
+  document.getElementById('dayToday').addEventListener('click', function(){
+    currentDay = todayDayIndex(); updateDailyHeader(); loadDaily(currentDay);
+  });
+
+  sb.channel('mission-board-daily')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'daily_checks' }, function(payload){
+      var row = payload.new;
+      if(row && row.day_index === currentDay){
+        var cb = document.querySelector('input[type="checkbox"][data-daily="1"][data-member="' + row.member + '"][data-mission="' + row.mission + '"]');
+        if(cb && cb.checked !== row.checked){ cb.checked = row.checked; }
+        computePanelStats(document.querySelector('.week-panel[data-week="daily"]'));
+      }
+    })
+    .subscribe();
 
   async function loadInitial(){
     var checksRes = await sb.from('checks').select('*').eq('week', WEEK);
@@ -687,7 +888,13 @@
     });
 
   document.getElementById('app').addEventListener('change', function(e){
-    if(e.target.matches('input[type="checkbox"]')){
+    if(e.target.matches('input[type="checkbox"][data-daily="1"]')){
+      computePanelStats(e.target.closest('.week-panel'));
+      var dMember = Number(e.target.getAttribute('data-member'));
+      var dMission = e.target.getAttribute('data-mission');
+      sb.from('daily_checks').upsert({ day_index: currentDay, member: dMember, mission: dMission, checked: e.target.checked, updated_at: new Date().toISOString() }, { onConflict: 'day_index,member,mission' })
+        .then(function(res){ if(res.error){ setConn('error', '저장 실패: ' + res.error.message); } });
+    } else if(e.target.matches('input[type="checkbox"]')){
       computePanelStats(e.target.closest('.week-panel'));
       var member = Number(e.target.getAttribute('data-member'));
       var mission = Number(e.target.getAttribute('data-mission'));
@@ -702,6 +909,7 @@
   });
 
   loadInitial();
+  loadDaily(currentDay);
 })();
 </script>
 </body>
