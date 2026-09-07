@@ -632,10 +632,49 @@
 
     <section class="week-panel" data-week="week-3" data-deadline="2026-09-11T00:00:00+09:00">
       <span class="panel-tag">3주차</span>
-      <p class="panel-meta">마감 예정 <b>2026.09.10(목) 24:00</b></p>
-      <div class="placeholder-card">
-        <span class="icon">🛠️</span>
-        <p>3주차 미션이 아직 등록되지 않았어요.<br>미션이 정해지면 이 탭에 체크리스트가 열려요.</p>
+      <p class="panel-meta">미션 <b>7개</b> · 마감 <b>2026.09.10(목) 24:00</b></p>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="label">완료 인원</span>
+          <span class="value" data-role="done-count">0 / 10</span>
+          <div class="bar"><span data-role="done-bar"></span></div>
+        </div>
+        <div class="stat">
+          <span class="label">전체 체크</span>
+          <span class="value" data-role="check-count">0 / 70</span>
+        </div>
+        <div class="stat">
+          <span class="label">마감까지</span>
+          <span class="value" data-role="countdown">계산 중…</span>
+        </div>
+      </div>
+
+      <div class="overdue-note" data-role="overdue-note">
+        <span>⏰</span>
+        <span>마감을 넘겼는데 아직 다 못한 사람: <b data-role="overdue-list"></b></span>
+      </div>
+
+      <div class="board">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th class="th-idx">번호</th>
+                <th class="th-name">이름</th>
+                <th><div class="col-head"><span class="num">1</span><span class="name">어그로일일</span></div></th>
+                <th><div class="col-head"><span class="num">2</span><span class="name">더가치를느끼는타겟</span></div></th>
+                <th><div class="col-head"><span class="num">3</span><span class="name">핵심가치찾기</span></div></th>
+                <th><div class="col-head"><span class="num">4</span><span class="name">가치올리기</span></div></th>
+                <th><div class="col-head"><span class="num">5</span><span class="name">공산품R</span></div></th>
+                <th><div class="col-head"><span class="num">6</span><span class="name">화장품성분</span></div></th>
+                <th><div class="col-head"><span class="num">7</span><span class="name">후기미션</span></div></th>
+                <th>상태</th>
+              </tr>
+            </thead>
+            <tbody id="week3Rows"></tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -706,7 +745,8 @@
   var MEMBERS = [31,32,33,34,35,36,37,38,39,40];
   var WEEKS = [
     { key: 'week-1', tbodyId: 'week1Rows', missions: ['한줄컨셉','외국레퍼찾기','코어해부','인스타컨텐츠','DM문구','1주차후기'] },
-    { key: 'week-2', tbodyId: 'week2Rows', missions: ['틱톡컨텐츠','유튜브컨텐츠','욕류찾기','욕구찾기','틱톡R찾기','반대욕구','후기'] }
+    { key: 'week-2', tbodyId: 'week2Rows', missions: ['틱톡컨텐츠','유튜브컨텐츠','욕류찾기','욕구찾기','틱톡R찾기','반대욕구','후기'] },
+    { key: 'week-3', tbodyId: 'week3Rows', missions: ['어그로일일','더가치를느끼는타겟','핵심가치찾기','가치올리기','공산품R','화장품성분','후기미션'] }
   ];
 
   function pad(n){ return String(n).padStart(2,'0'); }
