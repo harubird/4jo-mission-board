@@ -663,7 +663,7 @@
                 <th class="th-idx">번호</th>
                 <th class="th-name">이름</th>
                 <th><div class="col-head"><span class="num">1</span><span class="name">어그로일일</span></div></th>
-                <th><div class="col-head"><span class="num">2</span><span class="name">더가치를느끼는타겟</span></div></th>
+                <th><div class="col-head"><span class="num">2</span><span class="name">타겟찾기</span></div></th>
                 <th><div class="col-head"><span class="num">3</span><span class="name">핵심가치찾기</span></div></th>
                 <th><div class="col-head"><span class="num">4</span><span class="name">가치올리기</span></div></th>
                 <th><div class="col-head"><span class="num">5</span><span class="name">공산품R</span></div></th>
@@ -719,13 +719,7 @@
         <div class="table-scroll">
           <table>
             <thead>
-              <tr>
-                <th class="th-idx">번호</th>
-                <th class="th-name">이름</th>
-                <th><div class="col-head"><span class="num">A</span><span class="name">욕류찾기</span></div></th>
-                <th><div class="col-head"><span class="num">B</span><span class="name">행동교정</span></div></th>
-                <th>상태</th>
-              </tr>
+              <tr id="dailyHeadRow"></tr>
             </thead>
             <tbody id="dailyRows"></tbody>
           </table>
@@ -746,7 +740,7 @@
   var WEEKS = [
     { key: 'week-1', tbodyId: 'week1Rows', missions: ['한줄컨셉','외국레퍼찾기','코어해부','인스타컨텐츠','DM문구','1주차후기'] },
     { key: 'week-2', tbodyId: 'week2Rows', missions: ['틱톡컨텐츠','유튜브컨텐츠','욕류찾기','욕구찾기','틱톡R찾기','반대욕구','후기'] },
-    { key: 'week-3', tbodyId: 'week3Rows', missions: ['어그로일일','더가치를느끼는타겟','핵심가치찾기','가치올리기','공산품R','화장품성분','후기미션'] }
+    { key: 'week-3', tbodyId: 'week3Rows', missions: ['어그로일일','타겟찾기','핵심가치찾기','가치올리기','공산품R','화장품성분','후기미션'] }
   ];
 
   function pad(n){ return String(n).padStart(2,'0'); }
@@ -841,26 +835,45 @@
     });
   });
 
-  // ---- daily missions (30 days, A/B checks per member, no weekly deadline) ----
+  // ---- daily missions (30 days, per-member checks, no weekly deadline) ----
   var DAILY_START = new Date('2026-08-23T00:00:00+09:00');
   var DAILY_LENGTH = 30;
+  var DAILY_SWITCH_DAY = 16; // 2026-09-07: daily mission goes from 2 checks to 1
 
   function todayDayIndex(){
     var diff = Math.floor((new Date() - DAILY_START) / 86400000) + 1;
     return Math.min(DAILY_LENGTH, Math.max(1, diff));
   }
   var currentDay = todayDayIndex();
+  var namesCache = {};
 
-  function buildDailyRows(){
+  function missionsForDay(day){
+    if(day < DAILY_SWITCH_DAY){
+      return [{ code: 'A', label: '욕류찾기' }, { code: 'B', label: '행동교정' }];
+    }
+    return [{ code: 'C', label: '일일어그로찾기' }];
+  }
+
+  function renderDailyTable(day){
+    var missions = missionsForDay(day);
+    var headRow = document.getElementById('dailyHeadRow');
+    var headHtml = '<th class="th-idx">번호</th><th class="th-name">이름</th>';
+    missions.forEach(function(m, i){
+      headHtml += '<th><div class="col-head"><span class="num">' + (i + 1) + '</span><span class="name">' + m.label + '</span></div></th>';
+    });
+    headHtml += '<th>상태</th>';
+    headRow.innerHTML = headHtml;
+
     var tbody = document.getElementById('dailyRows');
     var html = '';
     MEMBERS.forEach(function(id){
       html += '<tr data-member="' + id + '">' +
         '<td class="idx">' + id + '</td>' +
-        '<td class="name-cell"><span class="name-display" data-member="' + id + '">이름/닉네임</span></td>' +
-        '<td><input type="checkbox" data-daily="1" data-member="' + id + '" data-mission="A" aria-label="' + id + '번 욕류찾기"></td>' +
-        '<td><input type="checkbox" data-daily="1" data-member="' + id + '" data-mission="B" aria-label="' + id + '번 행동교정"></td>' +
-        '<td class="status-cell"><span class="pill pill-done">✓ 완료</span><span class="pill pill-progress">진행중</span><span class="pill pill-overdue">미완료</span></td>' +
+        '<td class="name-cell"><span class="name-display" data-member="' + id + '">' + (namesCache[id] || '이름/닉네임') + '</span></td>';
+      missions.forEach(function(m){
+        html += '<td><input type="checkbox" data-daily="1" data-member="' + id + '" data-mission="' + m.code + '" aria-label="' + id + '번 ' + m.label + '"></td>';
+      });
+      html += '<td class="status-cell"><span class="pill pill-done">✓ 완료</span><span class="pill pill-progress">진행중</span><span class="pill pill-overdue">미완료</span></td>' +
         '</tr>';
     });
     tbody.innerHTML = html;
@@ -876,8 +889,15 @@
     document.getElementById('dayNext').disabled = currentDay >= DAILY_LENGTH;
   }
 
+  function switchDay(day){
+    currentDay = day;
+    updateDailyHeader();
+    renderDailyTable(currentDay);
+    loadDaily(currentDay);
+  }
+
   WEEKS.forEach(buildRows);
-  buildDailyRows();
+  renderDailyTable(currentDay);
   updateDailyHeader();
   tickCountdowns();
   refreshStats();
@@ -904,6 +924,7 @@
     if(cb && cb.checked !== row.checked){ cb.checked = row.checked; }
   }
   function applyNameRow(row){
+    namesCache[row.member] = row.name || '';
     document.querySelectorAll('input.name-input[data-member="' + row.member + '"]').forEach(function(inp){
       if(document.activeElement !== inp){ inp.value = row.name || ''; }
     });
@@ -914,7 +935,6 @@
 
   async function loadDaily(day){
     var panel = document.querySelector('.week-panel[data-week="daily"]');
-    panel.querySelectorAll('input[type="checkbox"]').forEach(function(cb){ cb.checked = false; });
     var res = await sb.from('daily_checks').select('*').eq('day_index', day);
     if(res.error){ setConn('error', '데이터를 불러오지 못했어요'); return; }
     (res.data || []).forEach(function(row){
@@ -925,13 +945,13 @@
   }
 
   document.getElementById('dayPrev').addEventListener('click', function(){
-    if(currentDay > 1){ currentDay--; updateDailyHeader(); loadDaily(currentDay); }
+    if(currentDay > 1){ switchDay(currentDay - 1); }
   });
   document.getElementById('dayNext').addEventListener('click', function(){
-    if(currentDay < DAILY_LENGTH){ currentDay++; updateDailyHeader(); loadDaily(currentDay); }
+    if(currentDay < DAILY_LENGTH){ switchDay(currentDay + 1); }
   });
   document.getElementById('dayToday').addEventListener('click', function(){
-    currentDay = todayDayIndex(); updateDailyHeader(); loadDaily(currentDay);
+    switchDay(todayDayIndex());
   });
 
   sb.channel('mission-board-daily')
